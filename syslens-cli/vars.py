@@ -2,8 +2,8 @@ import dotenv
 import os
 
 ssh_key_filename = os.getenv("HOME") + "/.ssh/id_rsa"
-inner_ssh_key_filename = "./inner_key"
-var = dotenv.dotenv_values(".env")
+inner_ssh_key_filename = "../configurations/inner_key"
+var = dotenv.dotenv_values("../configurations/.env")
 
 server_list = var.get("SERVER_LIST")
 server = var.get("BASTION")
