@@ -21,7 +21,7 @@ def add_rows(container_name, created_at, size, health_status):
     docker_table.add_row([container_name, created_at, size, health_status])
 
 
-def commands_to_execute(target):
+def docker_status(target):
     stdin, stdout, stderr = target.exec_command(
         "docker ps --format '{{.Names}},{{.CreatedAt}},{{.Size}},{{.Status}}'"
     )
@@ -52,3 +52,14 @@ def commands_to_execute(target):
             add_rows(name, created_at, size, status)
     print(docker_table)
     docker_table.clear_rows()
+
+
+def disk_size(target):
+    stdin, stdout, stderr = target.exec_command(
+        """df -h | awk '{if ($1 != "Filesystem") print $1 " " $5}'"""
+    )
+    for line in stdout.read().split(b"\n"):
+        stringed_line = str(line)
+        # print(stringed_line)
+        listed_data = stringed_line.split(" ")
+        print(listed_data)

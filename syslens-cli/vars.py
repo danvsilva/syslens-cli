@@ -1,10 +1,9 @@
 import dotenv
 import os
 
-ssh_key_filename = os.getenv("HOME") + "/.ssh/id_rsa"
-inner_ssh_key_filename = "../configurations/inner_key"
 var = dotenv.dotenv_values("../configurations/.env")
-
+inner_ssh_key_filename = "../configurations/inner_key"
+ssh_key_filename = os.getenv("HOME") + var.get("KEY")
 server_list = var.get("SERVER_LIST")
 server = var.get("BASTION")
 final_target = "10.232.5.8"

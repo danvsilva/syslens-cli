@@ -1,6 +1,8 @@
 from connections import *
 from vars import *
 from formatter import *
+import menu
+
 
 #     Main:
 #         Initialize a list to hold container health statuses
@@ -13,7 +15,7 @@ from formatter import *
 #         Display the results in a color-coded table
 
 
-def main(host):
+def main(host, func):
     connection = key_based_connect(server, user, ssh_key_filename)
     bastion_channel = jump_to_target(connection, host, bastion_private_ip)
     target = paramiko.SSHClient()
@@ -24,11 +26,22 @@ def main(host):
         key_filename=inner_ssh_key_filename,
         sock=bastion_channel,
     )
-    commands_to_execute(target)
+    func(target)
     target.close()
     bastion_channel.close()
 
 
-for vm in server_list:
-    print(f"Connecting to: {vm}")
-    main(vm)
+answer = menu.menu()
+
+match answer:
+    case 1:
+        for vm in server_list:
+            print(f"Connecting to: {vm}")
+            main(vm, docker_status)
+    case 2:
+        for vm in server_list:
+            print(f"Connecting to: {vm}")
+            main(vm, disk_size)
+    case _:
+        print("Invalid parameter.")
+
