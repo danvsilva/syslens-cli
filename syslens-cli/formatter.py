@@ -67,12 +67,17 @@ def disk_size(target):
         percentage = listed_data[1].replace("%'", "%")
         number_without_percent_sign = int(percentage.replace("%", ""))
         if 50 <= number_without_percent_sign <= 75:
-            percentage = percentage.replace(f"{percentage}", f"{Bcolors.WARNING}{percentage}{Bcolors.ENDC}")
+            percentage = percentage.replace(
+                f"{percentage}", f"{Bcolors.WARNING}{percentage}{Bcolors.ENDC}"
+            )
         elif 76 <= number_without_percent_sign:
-            percentage = percentage.replace(f"{percentage}", f"{Bcolors.FAIL}{percentage}{Bcolors.ENDC}")
+            percentage = percentage.replace(
+                f"{percentage}", f"{Bcolors.FAIL}{percentage}{Bcolors.ENDC}"
+            )
         else:
-            percentage = percentage.replace(f"{percentage}", f"{Bcolors.OKGREEN}{percentage}{Bcolors.ENDC}")
+            percentage = percentage.replace(
+                f"{percentage}", f"{Bcolors.OKGREEN}{percentage}{Bcolors.ENDC}"
+            )
         volume_table.add_row([volume, percentage])
     print(volume_table)
     volume_table.clear_rows()
-
