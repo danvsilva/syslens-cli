@@ -15,7 +15,9 @@ class Bcolors:
 
 # docker ps --format '{{.Names}},{{.CreatedAt}},{{.Size}},{{.Status}}'
 docker_table = PrettyTable(["Container Name", "Created At", "Size", "Health Status"])
-volume_table = PrettyTable(["Volume", "Percentage"])
+volume_table = PrettyTable(
+    ["Volume", "Size", "Used", "Available", "Percentage", "Mounted On"]
+)
 
 
 def docker_status(target):
@@ -53,31 +55,38 @@ def docker_status(target):
 
 
 def disk_size(target):
-    stdin, stdout, stderr = target.exec_command(
-        """df -h | awk '{if ($1 != "Filesystem") print $1 " " $5}'"""
-    )
+    stdin, stdout, stderr = target.exec_command("df -h | tail -n +2")
     for line in stdout.read().split(b"\n"):
         stringed_line = str(line)
         # print(stringed_line)
         listed_data = stringed_line.split(" ")
-        # print(listed_data)
-        if len(listed_data) <= 1:
-            continue
-        volume = listed_data[0].replace("b'", "")
-        percentage = listed_data[1].replace("%'", "%")
-        number_without_percent_sign = int(percentage.replace("%", ""))
-        if 50 <= number_without_percent_sign <= 75:
-            percentage = percentage.replace(
-                f"{percentage}", f"{Bcolors.WARNING}{percentage}{Bcolors.ENDC}"
-            )
-        elif 76 <= number_without_percent_sign:
-            percentage = percentage.replace(
-                f"{percentage}", f"{Bcolors.FAIL}{percentage}{Bcolors.ENDC}"
-            )
-        else:
-            percentage = percentage.replace(
-                f"{percentage}", f"{Bcolors.OKGREEN}{percentage}{Bcolors.ENDC}"
-            )
-        volume_table.add_row([volume, percentage])
-    print(volume_table)
-    volume_table.clear_rows()
+        for element in listed_data:
+            if element is None:
+                listed_data.remove(listed_data)
+            else:
+                continue
+        print(listed_data)
+        # if len(listed_data) <= 1:
+        #     continue
+        # volume = listed_data[0].replace("b'", "")
+        # size = listed_data[1]
+        # used = listed_data[2]
+        # avail = listed_data[3]
+        # mounted_on = listed_data[5]
+        # percentage = listed_data[4].replace("%'", "%")
+    #     number_without_percent_sign = int(percentage.replace("%", ""))
+    #     if 50 <= number_without_percent_sign <= 75:
+    #         percentage = percentage.replace(
+    #             f"{percentage}", f"{Bcolors.WARNING}{percentage}{Bcolors.ENDC}"
+    #         )
+    #     elif 76 <= number_without_percent_sign:
+    #         percentage = percentage.replace(
+    #             f"{percentage}", f"{Bcolors.FAIL}{percentage}{Bcolors.ENDC}"
+    #         )
+    #     else:
+    #         percentage = percentage.replace(
+    #             f"{percentage}", f"{Bcolors.OKGREEN}{percentage}{Bcolors.ENDC}"
+    #         )
+    #     volume_table.add_row([volume, percentage])
+    # print(volume_table)
+    # volume_table.clear_rows()
