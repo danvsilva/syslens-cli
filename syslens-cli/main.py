@@ -1,7 +1,7 @@
 from connections import *
 from vars import *
 from formatter import *
-from menu import logo, menu
+from menu import logo, menu, hosts_selection
 
 start = True
 
@@ -38,9 +38,18 @@ while start:
 
     match answer:
         case 1:
-            for vm in server_list:
-                print(f"Connecting to: {vm}")
-                main(vm, docker_status)
+            host = hosts_selection(server_list)
+            if type(host) is list:
+                for vm in host:
+                    vm = str(vm)
+                    print(f"Connecting to: {vm}")
+                    main(host, docker_status)
+            else:
+                print(f"Connecting to: {host}")
+                main(host, docker_status)
+            # for vm in server_list:
+            #     print(f"Connecting to: {vm}")
+            #     main(vm, docker_status)
         case 2:
             for vm in server_list:
                 print(f"Connecting to: {vm}")
