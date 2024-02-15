@@ -45,6 +45,7 @@ def hosts_selection(servers):
     print(server_table)
     server_table.clear_rows()
     selected_host = input("Input Host Number or 'a' for All Hosts: ")
+    print("")
     if selected_host == 'a':
         return servers
     else:

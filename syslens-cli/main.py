@@ -5,16 +5,6 @@ from menu import logo, menu, hosts_selection
 
 start = True
 
-#     Main:
-#         Initialize a list to hold container health statuses
-#         For each VM in the list of designated VMs:
-#             Establish an SSH connection to the VM
-#             For each Docker container in the VM:
-#                 Check the health status of the container
-#                 Add the VM, container name, and health status to the list
-#             Close the SSH connection
-#         Display the results in a color-coded table
-
 
 def main(host, func):
     connection = key_based_connect(server, user, ssh_key_filename)
@@ -31,32 +21,40 @@ def main(host, func):
     target.close()
     bastion_channel.close()
 
+
 logo()
 
 while start:
     answer = menu()
-
     match answer:
         case 1:
             host = hosts_selection(server_list)
             if type(host) is list:
                 for vm in host:
-                    vm = str(vm)
                     print(f"Connecting to: {vm}")
-                    main(host, docker_status)
+                    main(vm, docker_status)
+                print("")
+                print("Choose the next option: ")
             else:
                 print(f"Connecting to: {host}")
                 main(host, docker_status)
-            # for vm in server_list:
-            #     print(f"Connecting to: {vm}")
-            #     main(vm, docker_status)
+                print("")
+                print("Choose the next option: ")
         case 2:
-            for vm in server_list:
-                print(f"Connecting to: {vm}")
-                main(vm, disk_size)
+            host = hosts_selection(server_list)
+            if type(host) is list:
+                for vm in host:
+                    print(f"Connecting to: {vm}")
+                    main(vm, disk_size)
+                print("")
+                print("Choose the next option: ")
+            else:
+                print(f"Connecting to: {host}")
+                main(host, disk_size)
+                print("")
+                print("Choose the next option: ")
         case 0:
+            print("Goodbye.")
             start = False
         case _:
             print("Invalid parameter.")
-    print("")
-    print("Choose the next option: ")
