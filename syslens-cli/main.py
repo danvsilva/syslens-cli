@@ -1,8 +1,9 @@
 from connections import *
 from vars import *
 from formatter import *
-import menu
+from menu import logo, menu
 
+start = True
 
 #     Main:
 #         Initialize a list to hold container health statuses
@@ -30,18 +31,23 @@ def main(host, func):
     target.close()
     bastion_channel.close()
 
+logo()
 
-answer = menu.menu()
+while start:
+    answer = menu()
 
-match answer:
-    case 1:
-        for vm in server_list:
-            print(f"Connecting to: {vm}")
-            main(vm, docker_status)
-    case 2:
-        for vm in server_list:
-            print(f"Connecting to: {vm}")
-            main(vm, disk_size)
-    case _:
-        print("Invalid parameter.")
-
+    match answer:
+        case 1:
+            for vm in server_list:
+                print(f"Connecting to: {vm}")
+                main(vm, docker_status)
+        case 2:
+            for vm in server_list:
+                print(f"Connecting to: {vm}")
+                main(vm, disk_size)
+        case 0:
+            start = False
+        case _:
+            print("Invalid parameter.")
+    print("")
+    print("Choose the next option: ")
