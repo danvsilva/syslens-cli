@@ -1,3 +1,4 @@
+![](/attachments/syslens-cli.png?raw=true "syslens-cli")
 # syslens-cli
 ## Overview
 Syslens-CLI is a Python-based command-line interface tool designed for remote server management, specifically focusing on container status and system performance metrics. It uses SSH for secure communication and provides an intuitive interface for system administrators to manage multiple hosts efficiently.
