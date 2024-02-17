@@ -18,9 +18,9 @@ docker_table = PrettyTable(["Container Name", "Created At", "Size", "Health Stat
 volume_table = PrettyTable(
     ["Volume", "Size", "Used", "Available", "Percentage", "Mounted On"]
 )
-system_table = PrettyTable(["Memory Total", "Memory Used", ""])
-resource_hogging_table = PrettyTable(["Process ID", "%CPU", "Command"])
-resource_hogging_table.title = "Top 10 Resource Hogging Processes"
+system_table = PrettyTable(["Total Memory", "Memory Used", ""])
+delinquent_processes_table = PrettyTable(["Process ID", "%CPU", "Command"])
+delinquent_processes_table.title = "Top 10 CPU Hogging Processes"
 
 
 def docker_status(target):
@@ -91,15 +91,13 @@ def disk_size(target):
     print(volume_table)
     volume_table.clear_rows()
 
+
 def system_metrics(target):
     # ps -e --sort=-pcpu -o pid,pcpu,comm | head -n 11
     # free -h
     # uptime
-    stdin, stdout, stderr = target.exec_command(
-        "free -h"
-    )
+    stdin, stdout, stderr = target.exec_command("free -h")
     for line in stdout.read().split(b"\n"):
         stringed_line = str(line)
         print(stringed_line)
         # listed_data = stringed_line.split(",")
-
