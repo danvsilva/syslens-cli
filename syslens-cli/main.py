@@ -13,7 +13,7 @@ while start:
         case 1:
             process_hosts(docker_status)
         case 2:
-            process_hosts(disk_size)
+            process_hosts(system_metrics)
         case 0:
             print("Goodbye.")
             start = False
