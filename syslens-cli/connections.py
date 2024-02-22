@@ -45,7 +45,7 @@ def direct_connector(host, func):
 
 
 def process_hosts(jump, func):
-    if jump:
+    if jump == "active":
         host = hosts_selection(server_list)
         if type(host) is list:
             for vm in host:
@@ -58,7 +58,7 @@ def process_hosts(jump, func):
             main_bastion_connector(host, func)
             print("")
             print("Choose the next option: ")
-    else:
+    elif jump == "inactive":
         host = hosts_selection(server_list)
         if type(host) is list:
             for vm in host:
@@ -71,3 +71,5 @@ def process_hosts(jump, func):
             direct_connector(host, func)
             print("")
             print("Choose the next option: ")
+    else:
+        print("Invalid parameter.")

@@ -33,16 +33,16 @@ def menu():
 
 
 def set_either():
-    answer = input("Please choose 'a' for Jump Mode or 'b' for Single Target Mode")
+    answer = input("Please choose 'a' for Jump Mode or 'b' for Single Target Mode: ")
     answer = answer.lower()
     try:
         if answer == "a":
             f = open("../configurations/workspace.conf", "w")
-            f.write("JUMP_MODE='True'")
+            f.write("JUMP_MODE='active'")
             f.close()
         elif answer == "b":
             f = open("../configurations/workspace.conf", "w")
-            f.write("JUMP_MODE='False'")
+            f.write("JUMP_MODE='inactive'")
             f.close()
     except Exception as e:
         print(e)

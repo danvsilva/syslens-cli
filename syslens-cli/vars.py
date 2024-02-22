@@ -19,10 +19,10 @@ try:
     jump_mode = config.get("JUMP_MODE")
 except Exception as e:
     print(
-        f"{e}. The variable JUMP_MODE was not found. Creating file with default value of True..."
+        f"{e}. The variable JUMP_MODE was not found. Creating file with default value of active..."
     )
     f = open("../configurations/workspace.conf", "a")
-    f.write("JUMP_MODE=True")
+    f.write("JUMP_MODE='active'")
     f.close()
 finally:
     config = dotenv.dotenv_values("../configurations/workspace.conf")
