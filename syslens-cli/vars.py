@@ -12,3 +12,20 @@ bastion_private_ip = var.get("BASTION_PRIVATE_IP")
 port = var.get("PORT")
 
 server_list = server_list.split(",")
+
+
+try:
+    config = dotenv.dotenv_values("../configurations/workspace.conf")
+    jump_mode = config.get("JUMP_MODE")
+except Exception as e:
+    print(
+        f"{e}. The variable JUMP_MODE was not found. Creating file with default value of True..."
+    )
+    f = open("../configurations/workspace.conf", "a")
+    f.write("JUMP_MODE=True")
+    f.close()
+finally:
+    config = dotenv.dotenv_values("../configurations/workspace.conf")
+    jump_mode = config.get("JUMP_MODE")
+
+# print(jump_mode)

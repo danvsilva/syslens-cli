@@ -38,16 +38,36 @@ def main_bastion_connector(host, func):
     bastion_channel.close()
 
 
-def process_hosts(func):
-    host = hosts_selection(server_list)
-    if type(host) is list:
-        for vm in host:
-            print(f"Connecting to: {vm}")
-            main_bastion_connector(vm, func)
-        print("")
-        print("Choose the next option: ")
+def direct_connector(host, func):
+    target = key_based_connect(host, user, ssh_key_filename)
+    func(target)
+    target.close()
+
+
+def process_hosts(jump, func):
+    if jump:
+        host = hosts_selection(server_list)
+        if type(host) is list:
+            for vm in host:
+                print(f"Connecting to: {vm}")
+                main_bastion_connector(vm, func)
+            print("")
+            print("Choose the next option: ")
+        else:
+            print(f"Connecting to: {host}")
+            main_bastion_connector(host, func)
+            print("")
+            print("Choose the next option: ")
     else:
-        print(f"Connecting to: {host}")
-        main_bastion_connector(host, func)
-        print("")
-        print("Choose the next option: ")
+        host = hosts_selection(server_list)
+        if type(host) is list:
+            for vm in host:
+                print(f"Connecting to: {vm}")
+                direct_connector(vm, func)
+            print("")
+            print("Choose the next option: ")
+        else:
+            print(f"Connecting to: {host}")
+            direct_connector(host, func)
+            print("")
+            print("Choose the next option: ")

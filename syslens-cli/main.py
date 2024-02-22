@@ -11,9 +11,11 @@ while start:
     answer = menu()
     match answer:
         case 1:
-            process_hosts(docker_status)
+            set_either()
         case 2:
-            process_hosts(system_metrics)
+            process_hosts(jump_mode, docker_status)
+        case 3:
+            process_hosts(jump_mode, system_metrics)
         case 0:
             print("Goodbye.")
             start = False
