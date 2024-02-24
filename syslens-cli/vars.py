@@ -14,18 +14,35 @@ port = var.get("PORT")
 server_list = server_list.split(",")
 
 
-try:
-    config = dotenv.dotenv_values("../configurations/workspace.conf")
-    jump_mode = config.get("JUMP_MODE")
-except Exception as e:
-    print(
-        f"{e}. The variable JUMP_MODE was not found. Creating file with default value of active..."
-    )
-    f = open("../configurations/workspace.conf", "a")
-    f.write("JUMP_MODE='active'")
-    f.close()
-finally:
-    config = dotenv.dotenv_values("../configurations/workspace.conf")
-    jump_mode = config.get("JUMP_MODE")
+def jump_set():
+    try:
+        config = dotenv.dotenv_values("../configurations/workspace.conf")
+        jump_mode = config.get("JUMP_MODE")
+        if jump_mode is not None:
+            return jump_mode
 
-# print(jump_mode)
+    except Exception as e:
+        print(
+            f"{e}. The variable JUMP_MODE was not found. Creating file with default value of active..."
+        )
+    default_value = "active"
+    with open("../configurations/workspace.conf", "w") as f:
+        f.write(f"JUMP_MODE='{default_value}'")
+    return default_value
+
+
+# def jump_set():
+#     try:
+#         config = dotenv.dotenv_values("../configurations/workspace.conf")
+#         jump_mode = config.get("JUMP_MODE")
+#         if jump_mode is not None:
+#             return jump_mode
+#     except Exception as e:
+#         print(f"{e}. The variable JUMP_MODE was not found.")
+#
+#     # If file or variable doesn't exist, create the file with default value
+#     default_value = "active"
+#     with open("../configurations/workspace.conf", "w") as f:
+#         f.write(f"JUMP_MODE='{default_value}'")
+#
+#     return default_value

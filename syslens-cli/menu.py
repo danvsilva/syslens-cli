@@ -12,8 +12,6 @@ def logo():
 	    \   \      \_    _/   \   \    |  |     |   __|  |  . `  |     \   \    |______|  |     |  |     |  | 
 	.----)   |       |  | .----)   |   |  `----.|  |____ |  |\   | .----)   |          |  `----.|  `----.|  | 
 	|_______/        |__| |_______/    |_______||_______||__| \__| |_______/            \______||_______||__| 
-
-
 	"""
     )
     print("Welcome to Syslens-CLI: What do you want to do?:")
@@ -37,13 +35,13 @@ def set_either():
     answer = answer.lower()
     try:
         if answer == "a":
-            f = open("../configurations/workspace.conf", "w")
-            f.write("JUMP_MODE='active'")
-            f.close()
+            with open("../configurations/workspace.conf", "w") as f:
+                f.write("JUMP_MODE='active'")
+            print("Choose the next option: ")
         elif answer == "b":
-            f = open("../configurations/workspace.conf", "w")
-            f.write("JUMP_MODE='inactive'")
-            f.close()
+            with open("../configurations/workspace.conf", "w") as f:
+                f.write("JUMP_MODE='inactive'")
+            print("Choose the next option: ")
     except Exception as e:
         print(e)
 
