@@ -9,7 +9,14 @@ def key_based_connect(bastion, username, ssh_key):
     client = paramiko.SSHClient()
     policy = paramiko.AutoAddPolicy()
     client.set_missing_host_key_policy(policy)
-    client.connect(bastion, username=username, pkey=pkey)
+    client.connect(
+        bastion,
+        username=username,
+        pkey=pkey,
+        timeout=10,
+        banner_timeout=10,
+        auth_timeout=10,
+    )
     return client
 
 
@@ -33,6 +40,9 @@ def main_bastion_connector(host, func):
         username=user,
         key_filename=inner_ssh_key_filename,
         sock=bastion_channel,
+        timeout=10,
+        banner_timeout=10,
+        auth_timeout=10,
     )
     func(target)
     target.close()
