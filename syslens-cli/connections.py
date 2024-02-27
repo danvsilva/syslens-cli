@@ -1,6 +1,7 @@
 import paramiko
 from vars import *
 from menu import *
+from formatter import Bcolors
 
 
 def key_based_connect(bastion, username, ssh_key):
@@ -52,12 +53,16 @@ def process_hosts(jump, func):
                 print(f"Connecting to: {vm}")
                 main_bastion_connector(vm, func)
             print("")
-            print("Choose the next option: ")
+            print(
+                f"Choose the next option: (JUMP MODE: {Bcolors.BLINK_WARNING}{jump.upper()}{Bcolors.ENDC})"
+            )
         else:
             print(f"Connecting to: {host}")
             main_bastion_connector(host, func)
             print("")
-            print("Choose the next option: ")
+            print(
+                f"Choose the next option: (JUMP MODE: {Bcolors.BLINK_WARNING}{jump.upper()}{Bcolors.ENDC})"
+            )
     elif jump == "inactive":
         host = hosts_selection(server_list)
         if type(host) is list:
@@ -65,11 +70,15 @@ def process_hosts(jump, func):
                 print(f"Connecting to: {vm}")
                 direct_connector(vm, func)
             print("")
-            print("Choose the next option: ")
+            print(
+                f"Choose the next option: (JUMP MODE: {Bcolors.BLINK_WARNING}{jump.upper()}{Bcolors.ENDC})"
+            )
         else:
             print(f"Connecting to: {host}")
             direct_connector(host, func)
             print("")
-            print("Choose the next option: ")
+            print(
+                f"Choose the next option: (JUMP MODE: {Bcolors.BLINK_WARNING}{jump.upper()}{Bcolors.ENDC})"
+            )
     else:
         print("Invalid parameter.")

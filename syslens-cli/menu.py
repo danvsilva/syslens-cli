@@ -1,5 +1,6 @@
 # Ask the operator what he wants to do.
 from prettytable import PrettyTable
+from formatter import Bcolors
 
 
 def logo():
@@ -37,10 +38,18 @@ def set_either():
         if answer == "a":
             with open("../configurations/workspace.conf", "w") as f:
                 f.write("JUMP_MODE='active'")
+            print("")
+            j_print = f"""JUMP MODE IS: {Bcolors.BLINK_WARNING}ACTIVE{Bcolors.ENDC}"""
+            print(j_print)
+            print("")
             print("Choose the next option: ")
         elif answer == "b":
             with open("../configurations/workspace.conf", "w") as f:
                 f.write("JUMP_MODE='inactive'")
+            print("")
+            j_print = f"""JUMP MODE IS: {Bcolors.BLINK_WARNING}INACTIVE{Bcolors.ENDC}"""
+            print(j_print)
+            print("")
             print("Choose the next option: ")
     except Exception as e:
         print(e)
