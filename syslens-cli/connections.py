@@ -56,8 +56,9 @@ def direct_connector(host, func):
 
 
 def process_hosts(jump, func):
+    s_list = server_list_chooser()
     if jump == "active":
-        host = hosts_selection(server_list)
+        host = hosts_selection(s_list)
         if type(host) is list:
             for vm in host:
                 print(f"Connecting to: {vm}")
@@ -74,7 +75,7 @@ def process_hosts(jump, func):
                 f"Choose the next option: (JUMP MODE: {Bcolors.BLINK_WARNING}{jump.upper()}{Bcolors.ENDC})"
             )
     elif jump == "inactive":
-        host = hosts_selection(server_list)
+        host = hosts_selection(s_list)
         if type(host) is list:
             for vm in host:
                 print(f"Connecting to: {vm}")
