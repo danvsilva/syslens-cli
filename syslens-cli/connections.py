@@ -9,7 +9,14 @@ def key_based_connect(bastion, username, ssh_key):
     client = paramiko.SSHClient()
     policy = paramiko.AutoAddPolicy()
     client.set_missing_host_key_policy(policy)
-    client.connect(bastion, username=username, pkey=pkey)
+    client.connect(
+        bastion,
+        username=username,
+        pkey=pkey,
+        timeout=10,
+        banner_timeout=10,
+        auth_timeout=10,
+    )
     return client
 
 
@@ -33,6 +40,9 @@ def main_bastion_connector(host, func):
         username=user,
         key_filename=inner_ssh_key_filename,
         sock=bastion_channel,
+        timeout=10,
+        banner_timeout=10,
+        auth_timeout=10,
     )
     func(target)
     target.close()
@@ -46,8 +56,9 @@ def direct_connector(host, func):
 
 
 def process_hosts(jump, func):
+    s_list = server_list_chooser()
     if jump == "active":
-        host = hosts_selection(server_list)
+        host = hosts_selection(s_list)
         if type(host) is list:
             for vm in host:
                 print(f"Connecting to: {vm}")
@@ -64,7 +75,7 @@ def process_hosts(jump, func):
                 f"Choose the next option: (JUMP MODE: {Bcolors.BLINK_WARNING}{jump.upper()}{Bcolors.ENDC})"
             )
     elif jump == "inactive":
-        host = hosts_selection(server_list)
+        host = hosts_selection(s_list)
         if type(host) is list:
             for vm in host:
                 print(f"Connecting to: {vm}")
