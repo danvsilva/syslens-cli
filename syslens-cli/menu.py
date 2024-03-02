@@ -1,6 +1,7 @@
 # Ask the operator what he wants to do.
 from prettytable import PrettyTable
 from formatter import Bcolors
+import os.path
 
 
 def logo():
@@ -75,3 +76,11 @@ def hosts_selection(servers):
     else:
         selected_host = int(selected_host)
         return to_select_hosts[selected_host]
+
+
+def function_check():
+    # check for all vars upon startup
+    # needed_files = ["../configurations/.env", "inner_k
+    # present_files = []
+    # unnavailable_files = []
+    pass
